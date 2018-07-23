@@ -1,13 +1,9 @@
 import { FETCH_CHILL_SPOTS } from '../actions/chill-spots-actions';
 
-export default function(state = {}, action) {
+export default function(state = false, action) {
   switch (action.type) {
     case FETCH_CHILL_SPOTS:
-      console.log('-----------------');
-      console.log(action.payload);
-      console.log('-----------------');
-
-      return { ...state, chillspots: action.payload };
+      return { ...state, results: action.payload };
     default:
       return state;
   }

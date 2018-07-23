@@ -4,11 +4,10 @@ import { withRouter } from 'react-router-dom';
 
 import { fetchChillSpots } from '../../actions/chill-spots-actions';
 import ResultsMap from '../presentational/results-map';
-
+import ResultsList from '../presentational/results-list';
 class ResultsIndex extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
   }
   componentWillMount() {
     const { lat, lng } = this.props.match.params;
@@ -16,15 +15,25 @@ class ResultsIndex extends Component {
   }
   render() {
     return (
-      <div>
-        <ResultsMap {...this.props} />
+      <div style={{ border: '1px solid red' }} className="container">
+        <div className="row">
+          <div style={{ border: '1px solid red' }} className="col">
+            <ResultsMap {...this.props} />
+          </div>
+          <div style={{ border: '1px solid red' }} className="col">
+            <ResultsList {...this.props} />
+          </div>
+        </div>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  chillspots: state.chillspots;
+  return {
+    user: state.user,
+    chillspots: state.chillspots
+  };
 }
 
 export default connect(
