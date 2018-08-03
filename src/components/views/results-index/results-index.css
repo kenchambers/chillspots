@@ -1,0 +1,13 @@
+#results-index-container {
+  border: 1px solid red;
+}
+
+#results-map {
+}
+
+#results-list {
+  border: 1px solid red;
+  overflow: scroll;
+
+  height: 400px;
+}

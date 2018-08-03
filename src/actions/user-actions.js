@@ -1,4 +1,3 @@
-import axios from 'axios';
 export const FETCH_USER_LOCATION = 'fetch_user_location';
 
 export function fetchUserLocation({ lat, lng }) {

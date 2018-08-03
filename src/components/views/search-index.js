@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import SearchComponent from '../containers/search-component';
-import ResultsMap from '../presentational/results-map';
 export default class SearchIndex extends Component {
   render() {
     return (

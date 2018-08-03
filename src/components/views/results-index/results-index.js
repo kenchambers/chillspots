@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
-import { fetchChillSpots } from '../../actions/chill-spots-actions';
-import ResultsMap from '../presentational/results-map';
-import ResultsList from '../presentational/results-list';
+import './results-index.css';
+import { fetchChillSpots } from '../../../actions/chill-spots-actions';
+import ResultsMap from '../../presentational/results-map';
+import ResultsList from '../../containers/results-list';
 class ResultsIndex extends Component {
   constructor(props) {
     super(props);
@@ -15,12 +15,15 @@ class ResultsIndex extends Component {
   }
   render() {
     return (
-      <div style={{ border: '1px solid red' }} className="container">
+      <div
+        id="results-index-container"
+        style={{ border: '1px solid red' }}
+        className="container">
         <div className="row">
-          <div style={{ border: '1px solid red' }} className="col">
+          <div id="results-map" className="col">
             <ResultsMap {...this.props} />
           </div>
-          <div style={{ border: '1px solid red' }} className="col">
+          <div id="results-list" className="col">
             <ResultsList {...this.props} />
           </div>
         </div>

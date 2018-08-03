@@ -1,55 +1,63 @@
 import React, { Component } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL from 'react-map-gl';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { selectMapLocation } from '../../actions/map-state-actions';
+import LoaderCircle from '../../utils/loader-circle/loader-circle';
+import MarkerComponent from '../presentational/marker-component/marker-component';
 
 class ResultsMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
       viewport: {
-        width: 400,
-        height: 400,
+        width: this.props.width ? this.props.width : 400,
+        height: this.props.height ? this.props.height : 400,
         latitude: parseFloat(props.match.params.lat),
         longitude: parseFloat(props.match.params.lng),
-        zoom: 10
+        zoom: this.props.zoom ? this.props.zoom : 12
       }
     };
   }
 
+  markerClicked = chillspot => {
+    this.props.history.push(
+      `/results/${chillspot.info.coordinates.latitude}/${
+        chillspot.info.coordinates.longitude
+      }/${chillspot.info.alias}`
+    );
+  };
+
   render() {
-    const { lat, lng } = this.props.match.params;
-
-    const results = this.props.businesses
-      ? this.props.businesses.businesses
-      : false;
-
-    console.log(results);
-
     return (
       <div>
-        <ReactMapGL
-          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-          {...this.state.viewport}
-          onViewportChange={viewport => this.setState({ viewport })}>
-          {results &&
-            results.map(business => {
-              let latitude = business.coordinates.latitude;
-              let longitude = business.coordinates.longitude;
-              return (
-                <Marker
-                  key={business.id}
-                  latitude={latitude}
-                  longitude={longitude}
-                  offsetLeft={-20}
-                  offsetTop={-10}>
-                  <div>
-                    <img src={require('../../assets/marker.svg')} />
-                  </div>
-                </Marker>
-              );
-            })}
-        </ReactMapGL>
+        {this.props.chillspots ? (
+          <div>
+            <ReactMapGL
+              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
+              {...this.state.viewport}
+              onViewportChange={viewport => this.setState({ viewport })}>
+              {this.props.chillspots.length > 0 &&
+                this.props.chillspots.map((location, i) => {
+                  return (
+                    <MarkerComponent
+                      {...this.props}
+                      markerSelected={
+                        location.info.id === this.props.mapState.id
+                      }
+                      markerClicked={this.markerClicked}
+                      key={location.info.id}
+                      location={location}
+                    />
+                  );
+                })}
+            </ReactMapGL>
+          </div>
+        ) : (
+          <div style={{ width: '100vw' }}>
+            <LoaderCircle />
+          </div>
+        )}
       </div>
     );
   }
@@ -58,10 +66,11 @@ class ResultsMap extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    businesses: state.chillspots.results
+    chillspots: state.chillspots,
+    mapState: state.mapState
   };
 }
 export default connect(
   mapStateToProps,
-  {}
+  { selectMapLocation }
 )(withRouter(ResultsMap));

@@ -1,5 +1,6 @@
-import axios from 'axios';
 export const FETCH_USER_LOCATION = 'fetch_user_location';
+export const SELECT_MAP_LOCATION = 'select_map_location';
+export const HOVER_MAP_LOCATION = 'hover_map_location';
 
 export function fetchUserLocation({ lat, lng }, callback) {
   const data = {
